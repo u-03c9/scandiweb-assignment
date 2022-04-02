@@ -5,9 +5,12 @@
   "dependencies": {
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
+    "react-router-dom": "6",
     "react-scripts": "5.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "sass": "^1.49.11"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
