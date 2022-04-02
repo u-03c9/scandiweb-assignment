@@ -24,6 +24,9 @@ const currencySlice = createSlice({
     dismissCurrencyMenu: (state) => {
       state.isCurrencyMenuOpen = false;
     },
+    setCurrentCurrency: (state, { payload }) => {
+      state.currentCurrency = payload;
+    },
   },
 });
 
