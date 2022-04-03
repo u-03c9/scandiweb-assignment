@@ -1,11 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
+import { Link } from "react-router-dom";
 
 import {
   selectIsCurrencyMenuOpen,
   toggleCurrencyMenu,
   dismissCurrencyMenu,
+  selectCurrentCurrency,
 } from "../../redux/currency.reducer";
 import {
   selectIsCartMenuOpen,
@@ -20,7 +22,10 @@ import { ReactComponent as ArrowSVG } from "../../assets/down-arrow.svg";
 import "./Header.styles.scss";
 
 import CurrencyMenu from "../currencyMenu/CurrencyMenu.comp";
-import { Link } from "react-router-dom";
+import {
+  getCategoryNamesAsync,
+  selectCategoryNames,
+} from "../../redux/shop.reducer";
 
 class HeaderComp extends React.Component {
   dismissAllMenus = () => {
@@ -30,6 +35,7 @@ class HeaderComp extends React.Component {
 
   componentDidMount() {
     window.addEventListener("click", this.dismissAllMenus);
+    this.props.getCategoryNames();
   }
 
   componentWillUnmount() {
@@ -55,12 +61,17 @@ class HeaderComp extends React.Component {
       toggleCartMenu();
     };
 
+    const { categoryNames, currentCurrency } = this.props;
     return (
       <header>
         <nav>
-          <Link to="/">WOMEN</Link>
-          <Link to="/">MEN</Link>
-          <Link to="/">KIDS</Link>
+          {categoryNames
+            ? categoryNames.map(({ name }) => (
+                <Link to={name} key={name}>
+                  {name}
+                </Link>
+              ))
+            : null}
         </nav>
 
         <div className="logo">
@@ -69,7 +80,7 @@ class HeaderComp extends React.Component {
 
         <div className="menus">
           <div className="currency-icon" onClick={handleOnClickCurrencyIcon}>
-            <span>$</span>
+            <span>{currentCurrency.symbol}</span>
             <ArrowSVG />
           </div>
           <div className="cart-icon" onClick={handleOnClickCartIcon}>
@@ -85,6 +96,8 @@ class HeaderComp extends React.Component {
 const mapStateToProps = createStructuredSelector({
   isCurrencyMenuOpen: selectIsCurrencyMenuOpen,
   isCartMenuOpen: selectIsCartMenuOpen,
+  categoryNames: selectCategoryNames,
+  currentCurrency: selectCurrentCurrency,
 });
 
 const mapDispatchToState = (dispatch) => ({
@@ -92,6 +105,7 @@ const mapDispatchToState = (dispatch) => ({
   dismissCartMenu: () => dispatch(dismissCartMenu()),
   toggleCurrencyMenu: () => dispatch(toggleCurrencyMenu()),
   dismissCurrencyMenu: () => dispatch(dismissCurrencyMenu()),
+  getCategoryNames: () => dispatch(getCategoryNamesAsync()),
 });
 
 export default connect(mapStateToProps, mapDispatchToState)(HeaderComp);
