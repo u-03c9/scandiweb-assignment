@@ -27,6 +27,11 @@ header {
 
       &:hover {
         color: $c-primary;
+      }
+
+      &.active {
+        color: $c-primary;
+        font-weight: 600;
         border-color: $c-primary;
       }
     }

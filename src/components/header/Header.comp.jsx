@@ -2,7 +2,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { Link } from "react-router-dom";
 
 // reducers
 import {
@@ -31,6 +30,7 @@ import "./Header.styles.scss";
 
 // components
 import CurrencyMenu from "../currencyMenu/CurrencyMenu.comp";
+import CustomLink from "../customLink/CustomLink.comp";
 
 class HeaderComp extends React.Component {
   dismissAllMenusHandler = () => {
@@ -77,9 +77,9 @@ class HeaderComp extends React.Component {
         <nav>
           {categoryNames
             ? categoryNames.map(({ name }) => (
-                <Link to={name} key={name}>
+                <CustomLink to={name} key={name}>
                   {name}
-                </Link>
+                </CustomLink>
               ))
             : null}
         </nav>
