@@ -1,32 +1,52 @@
 // external
-import React, { lazy, Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { Suspense } from "react";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
 // internal
 import "./App.scss";
 import SpinnerComp from "./components/spinner/Spinner.comp";
+import {
+  getCategoryNamesAsync,
+  selectCategoryNames,
+  selectErrorMsg,
+  selectIsLoading,
+} from "./redux/shop.reducer";
 
-// lazy imports
-const HeaderComp = lazy(() => import("./components/header/Header.comp"));
-const HomePage = lazy(() => import("./pages/home/Home.page"));
-const CheckoutPage = lazy(() => import("./pages/checkout/Checkout.page"));
-const NotFoundPage = lazy(() => import("./pages/notFound/NotFound.page"));
+// components
+import HeaderComp from "./components/header/Header.comp";
+import AppRoutes from "./routes";
 
 class App extends React.Component {
+  componentDidMount() {
+    this.props.fetchCategoryNames();
+  }
+
   render() {
+    const { categoryNames, isLoading, errorMsg } = this.props;
+
     return (
       <div id="App">
-        <Suspense fallback={<SpinnerComp />}>
-          <HeaderComp />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route exact path="/checkout" element={<CheckoutPage />} />
-            <Route exact path="/not-found" element={<NotFoundPage />} />
-          </Routes>
-        </Suspense>
+        <HeaderComp />
+        {/* TODO: create error boundary */}
+        {!isLoading && !errorMsg && categoryNames ? (
+          <Suspense fallback={<SpinnerComp />}>
+            <AppRoutes categoryNames={categoryNames} />
+          </Suspense>
+        ) : null}
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = createStructuredSelector({
+  categoryNames: selectCategoryNames,
+  isLoading: selectIsLoading,
+  errorMsg: selectErrorMsg,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchCategoryNames: () => dispatch(getCategoryNamesAsync()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
