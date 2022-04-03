@@ -1,10 +1,12 @@
-import React, { lazy } from "react";
+// external
+import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Suspense } from "react/cjs/react.production.min";
 
+// internal
 import "./App.scss";
 import SpinnerComp from "./components/spinner/Spinner.comp";
 
+// lazy imports
 const HeaderComp = lazy(() => import("./components/header/Header.comp"));
 const HomePage = lazy(() => import("./pages/home/Home.page"));
 const CheckoutPage = lazy(() => import("./pages/checkout/Checkout.page"));

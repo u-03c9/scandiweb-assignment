@@ -1,6 +1,9 @@
+// external
 import React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
+
+// reducers
 import {
   getCurrencyOptionsAsync,
   selectCurrencyOptions,
@@ -8,6 +11,7 @@ import {
   setCurrentCurrency,
 } from "../../redux/currency.reducer";
 
+//styles
 import "./CurrencyMenu.styles.scss";
 
 class CurrencyMenu extends React.Component {
