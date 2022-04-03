@@ -64,6 +64,17 @@ header {
       &:hover {
         filter: $filter-to-c-primary;
       }
+
+      svg {
+        transition: $transition;
+      }
+
+      &.active {
+        filter: $filter-to-c-primary;
+        svg {
+          transform: rotate(180deg);
+        }
+      }
     }
 
     .cart-icon {
@@ -76,6 +87,10 @@ header {
       transition: $transition;
 
       &:hover {
+        filter: $filter-to-c-primary;
+      }
+
+      &.active {
         filter: $filter-to-c-primary;
       }
     }

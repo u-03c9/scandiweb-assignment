@@ -1,8 +1,10 @@
+// external
 import React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { Link } from "react-router-dom";
 
+// reducers
 import {
   selectIsCurrencyMenuOpen,
   toggleCurrencyMenu,
@@ -14,38 +16,46 @@ import {
   toggleCartMenu,
   dismissCartMenu,
 } from "../../redux/cart.reducer";
-
-import { ReactComponent as CartSVG } from "../../assets/empty-cart.svg";
-import { ReactComponent as LogoSVG } from "../../assets/logo.svg";
-import { ReactComponent as ArrowSVG } from "../../assets/down-arrow.svg";
-
-import "./Header.styles.scss";
-
-import CurrencyMenu from "../currencyMenu/CurrencyMenu.comp";
 import {
   getCategoryNamesAsync,
   selectCategoryNames,
 } from "../../redux/shop.reducer";
 
+// assets
+import { ReactComponent as CartSVG } from "../../assets/empty-cart.svg";
+import { ReactComponent as LogoSVG } from "../../assets/logo.svg";
+import { ReactComponent as ArrowSVG } from "../../assets/down-arrow.svg";
+
+// styles
+import "./Header.styles.scss";
+
+// components
+import CurrencyMenu from "../currencyMenu/CurrencyMenu.comp";
+
 class HeaderComp extends React.Component {
-  dismissAllMenus = () => {
+  dismissAllMenusHandler = () => {
     if (this.props.isCurrencyMenuOpen) this.props.dismissCurrencyMenu();
     if (this.props.isCartMenuOpen) this.props.dismissCartMenu();
   };
 
   componentDidMount() {
-    window.addEventListener("click", this.dismissAllMenus);
+    window.addEventListener("click", this.dismissAllMenusHandler);
     this.props.getCategoryNames();
   }
 
   componentWillUnmount() {
-    window.removeEventListener("click", this.dismissAllMenus);
+    window.removeEventListener("click", this.dismissAllMenusHandler);
   }
 
   render() {
-    const { isCurrencyMenuOpen, toggleCurrencyMenu, dismissCurrencyMenu } =
-      this.props;
-    const { isCartMenuOpen, toggleCartMenu, dismissCartMenu } = this.props;
+    const {
+      dismissCartMenu,
+      dismissCurrencyMenu,
+      isCartMenuOpen,
+      isCurrencyMenuOpen,
+      toggleCartMenu,
+      toggleCurrencyMenu,
+    } = this.props;
 
     const handleOnClickCurrencyIcon = (e) => {
       e.preventDefault();
@@ -73,21 +83,26 @@ class HeaderComp extends React.Component {
               ))
             : null}
         </nav>
-
         <div className="logo">
           <LogoSVG />
         </div>
-
         <div className="menus">
-          <div className="currency-icon" onClick={handleOnClickCurrencyIcon}>
+          <div
+            className={`currency-icon ${isCurrencyMenuOpen ? "active" : ""}`}
+            onClick={handleOnClickCurrencyIcon}
+          >
             <span>{currentCurrency.symbol}</span>
             <ArrowSVG />
           </div>
-          <div className="cart-icon" onClick={handleOnClickCartIcon}>
+          <div
+            className={`cart-icon ${isCartMenuOpen ? "active" : ""}`}
+            onClick={handleOnClickCartIcon}
+          >
             <CartSVG />
           </div>
         </div>
         {isCurrencyMenuOpen ? <CurrencyMenu /> : null}
+        {/* TODO: add cart menu here */}
       </header>
     );
   }
