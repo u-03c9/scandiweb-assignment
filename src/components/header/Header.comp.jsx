@@ -15,10 +15,7 @@ import {
   toggleCartMenu,
   dismissCartMenu,
 } from "../../redux/cart.reducer";
-import {
-  getCategoryNamesAsync,
-  selectCategoryNames,
-} from "../../redux/shop.reducer";
+import { selectCategoryNames } from "../../redux/shop.reducer";
 
 // assets
 import { ReactComponent as CartSVG } from "../../assets/empty-cart.svg";
@@ -40,7 +37,6 @@ class HeaderComp extends React.Component {
 
   componentDidMount() {
     window.addEventListener("click", this.dismissAllMenusHandler);
-    this.props.getCategoryNames();
   }
 
   componentWillUnmount() {
@@ -115,12 +111,11 @@ const mapStateToProps = createStructuredSelector({
   currentCurrency: selectCurrentCurrency,
 });
 
-const mapDispatchToState = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   toggleCartMenu: () => dispatch(toggleCartMenu()),
   dismissCartMenu: () => dispatch(dismissCartMenu()),
   toggleCurrencyMenu: () => dispatch(toggleCurrencyMenu()),
   dismissCurrencyMenu: () => dispatch(dismissCurrencyMenu()),
-  getCategoryNames: () => dispatch(getCategoryNamesAsync()),
 });
 
-export default connect(mapStateToProps, mapDispatchToState)(HeaderComp);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderComp);
