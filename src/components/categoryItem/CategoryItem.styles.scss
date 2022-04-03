@@ -6,6 +6,7 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  row-gap: 1.5rem;
   padding: 1rem;
   position: relative;
   overflow: visible;
@@ -18,7 +19,7 @@
     &::before {
       content: "";
       display: block;
-      padding-top: (59 / 55) * 100%;
+      padding-top: calc((55 / 59) * 100%);
       width: 100%;
     }
 
@@ -39,7 +40,6 @@
     flex-grow: 1;
     display: grid;
     grid-template-rows: 50% 50%;
-    margin-top: 1.5rem;
     justify-content: space-between;
   }
 
