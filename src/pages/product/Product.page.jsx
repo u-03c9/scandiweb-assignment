@@ -13,6 +13,7 @@ import "./Product.styles.scss";
 import TestImage from "../../assets/test.png";
 import sanitizeHtml from "sanitize-html";
 import ProductAttribute from "../../components/productAttribute/ProductAttribute.comp";
+import { addItemToCart } from "../../redux/cart.reducer";
 
 class ProductPage extends React.Component {
   state = {
@@ -45,7 +46,7 @@ class ProductPage extends React.Component {
 
     if (isLoading) return <SpinnerComp />;
     else if (product) {
-      const { currentCurrency } = this.props;
+      const { currentCurrency, addItemToCart } = this.props;
       const { selectedImage } = this.state;
       const {
         id,
@@ -67,6 +68,12 @@ class ProductPage extends React.Component {
       const handleSubmit = (e) => {
         e.preventDefault();
         if (!inStock) return;
+        let formData = {};
+        new FormData(e.target).forEach((value, key) => {
+          formData[key] = value;
+        });
+        console.log(formData);
+        addItemToCart(formData);
       };
 
       return (
@@ -101,6 +108,7 @@ class ProductPage extends React.Component {
 
           <div className="info">
             <form onSubmit={handleSubmit}>
+              <input type="hidden" value={id} name="id" />
               <h2 className="brand">{brand}</h2>
               <h1 className="name">{name}</h1>
               {attributes.map((item) => (
@@ -137,8 +145,12 @@ const mapStateToProps = createStructuredSelector({
   currentCurrency: selectCurrentCurrency,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  addItemToCart: (product) => dispatch(addItemToCart(product)),
+});
+
 export default compose(
   withNavigation,
   withParams,
-  connect(mapStateToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )(ProductPage);

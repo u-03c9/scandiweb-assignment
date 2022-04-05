@@ -14,6 +14,7 @@ const initialState = {
 const cartSlice = createSlice({
   name: "cart",
   initialState,
+  items: [],
   reducers: {
     toggleCartMenu: (state) => {
       state.isCartMenuOpen = !state.isCartMenuOpen;
@@ -21,18 +22,30 @@ const cartSlice = createSlice({
     dismissCartMenu: (state) => {
       state.isCartMenuOpen = false;
     },
+    addItemToCart: (state, { payload }) => {
+      state.items = [...state.items, payload];
+    },
   },
 });
 
-export const { toggleCartMenu, dismissCartMenu } = cartSlice.actions;
+export const { toggleCartMenu, dismissCartMenu, addItemToCart } =
+  cartSlice.actions;
 
 // =================
 // === SELECTORS ===
 
-const selectCartStore = (state) => state.currency;
+const selectCartStore = (state) => state.cart;
 export const selectIsCartMenuOpen = createSelector(
   [selectCartStore],
   (cart) => cart.isCartMenuOpen
+);
+export const selectCartItems = createSelector(
+  [selectCartStore],
+  (cart) => cart.items
+);
+export const selectCartItemsTotal = createSelector(
+  [selectCartItems],
+  (items) => items.length
 );
 
 // ======================
