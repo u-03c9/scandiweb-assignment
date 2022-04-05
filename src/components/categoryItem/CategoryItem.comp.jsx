@@ -1,10 +1,12 @@
 // external
 import React from "react";
 import { connect } from "react-redux";
+import { compose } from "@reduxjs/toolkit";
 import { createStructuredSelector } from "reselect";
 
-// reducers
+// internal
 import { selectCurrentCurrency } from "../../redux/currency.reducer.js";
+import { withNavigation } from "../../HOC.js";
 
 // assets
 import { ReactComponent as CartSVG } from "../../assets/circle-cart.svg";
@@ -14,8 +16,8 @@ import "./CategoryItem.styles.scss";
 
 class CategoryItem extends React.Component {
   render() {
-    const { product, selectedCurrency } = this.props;
-    const { name, gallery, inStock, prices } = product;
+    const { product, selectedCurrency, navigate } = this.props;
+    const { id, name, gallery, inStock, prices } = product;
 
     // TODO: find an class alternatives to memoize this function
     const price = prices.find(
@@ -23,7 +25,7 @@ class CategoryItem extends React.Component {
     );
 
     return (
-      <div className="category-item">
+      <div className="category-item" onClick={() => navigate(`/product/${id}`)}>
         <div className="image-container">
           {/* <div
             className="image"
@@ -59,4 +61,4 @@ const mapStateToProps = createStructuredSelector({
   selectedCurrency: selectCurrentCurrency,
 });
 
-export default connect(mapStateToProps)(CategoryItem);
+export default compose(connect(mapStateToProps), withNavigation)(CategoryItem);

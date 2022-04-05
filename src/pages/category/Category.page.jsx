@@ -5,7 +5,7 @@ import { compose } from "@reduxjs/toolkit";
 import { createStructuredSelector } from "reselect";
 
 // internal
-import { withNavigationAndParams } from "../../helpers";
+import { withParams } from "../../HOC";
 import {
   getCategoryProductsAsync,
   selectCategoryProducts,
@@ -48,5 +48,5 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withNavigationAndParams
+  withParams
 )(CategoryPage);
