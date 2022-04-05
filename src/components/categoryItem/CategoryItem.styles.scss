@@ -10,8 +10,8 @@
   padding: 1rem;
   position: relative;
   overflow: visible;
-  transition: $transition;
   filter: drop-shadow(0px 4px 35px rgba($color: #a8acac, $alpha: 0));
+  @include transition;
 
   .image-container {
     position: relative;
@@ -63,8 +63,8 @@
     right: 1rem;
     bottom: 0;
     transform: translateY(50%);
-    transition: $transition;
     width: 3.25rem;
+    @include transition;
   }
 
   .out-of-stock-label {
@@ -83,7 +83,7 @@
       font-size: 1.5rem;
       font-weight: 400;
       opacity: 0.5;
-      transition: $transition;
+      @include transition;
     }
   }
 

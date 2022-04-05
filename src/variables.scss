@@ -47,3 +47,10 @@ $xx-width: 1440px;
     @content;
   }
 }
+
+@mixin transition {
+  transition: $transition;
+  @media (prefers-reduced-motion) {
+    transition: none;
+  }
+}

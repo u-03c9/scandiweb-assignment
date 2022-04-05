@@ -85,9 +85,13 @@ class ProductPage extends React.Component {
                 <div
                   className="thumbnail"
                   key={idx}
-                  style={{ backgroundImage: `url('${TestImage}')` }}
                   onClick={() => this.setState({ selectedImage: idx })}
-                />
+                >
+                  <div
+                    className="thumbnail-image"
+                    style={{ backgroundImage: `url('${TestImage}')` }}
+                  />
+                </div>
               ))}
             </div>
             {/* <img src={gallery[selectedImage]} alt="" className="full-image" /> */}

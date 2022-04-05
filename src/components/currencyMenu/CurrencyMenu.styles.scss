@@ -15,7 +15,6 @@ header {
 
     .item {
       padding: 0.65rem 1.25rem;
-      transition: $transition;
       font-weight: 500;
       font-size: 1.125rem;
       display: flex;
@@ -23,6 +22,7 @@ header {
       justify-content: space-between;
       user-select: none;
       cursor: pointer;
+      @include transition;
 
       &:hover {
         background-color: $c-primary;

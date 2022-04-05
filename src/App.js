@@ -18,8 +18,17 @@ import HeaderComp from "./components/header/Header.comp";
 import AppRoutes from "./routes";
 
 class App extends React.Component {
+  state = {
+    showReduceMotionMessage: false,
+  };
+
   componentDidMount() {
     this.props.fetchCategoryNames();
+
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!mediaQuery || mediaQuery.matches) {
+      this.setState({ showReduceMotionMessage: true });
+    }
   }
 
   render() {
@@ -33,6 +42,22 @@ class App extends React.Component {
           <Suspense fallback={<SpinnerComp />}>
             <AppRoutes categoryNames={categoryNames} />
           </Suspense>
+        ) : null}
+        {this.state.showReduceMotionMessage ? (
+          <div id="reduce-motion-message">
+            <div
+              className="container"
+              onClick={() => this.setState({ showReduceMotionMessage: false })}
+            >
+              <p>
+                We respect that you prefer reduced motion and animations,
+                therefore we have disabled it in our website. You can enable it
+                in your operating system / browser to see our small animation
+                <em>click here to dismiss</em>
+              </p>
+              <p></p>
+            </div>
+          </div>
         ) : null}
       </div>
     );
