@@ -1,7 +1,7 @@
-#App {
-  margin: 0 auto 1rem;
-  width: 93.8%;
-  max-width: 75.5rem;
+@import "./variables.scss";
+
+#page-container {
+  @include app-width;
 }
 
 #reduce-motion-message {

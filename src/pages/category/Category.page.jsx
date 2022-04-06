@@ -17,13 +17,26 @@ import "./Category.styles.scss";
 import CategoryItem from "../../components/categoryItem/CategoryItem.comp";
 
 class CategoryPage extends React.Component {
-  render() {
+  componentDidMount() {
     const { categoryName, getProducts, fetchCategoryProducts } = this.props;
+    if (!getProducts(categoryName)) {
+      fetchCategoryProducts(categoryName);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { categoryName, fetchCategoryProducts } = this.props;
+    if (categoryName !== prevProps.categoryName) {
+      fetchCategoryProducts(categoryName);
+    }
+  }
+
+  render() {
+    const { categoryName, getProducts } = this.props;
     const products = getProducts(categoryName);
-    if (!products) fetchCategoryProducts(categoryName);
 
     return (
-      <div id="category-page">
+      <div id="category-page" key={categoryName}>
         <h1>{categoryName}</h1>
         {products ? (
           <div className="products-container">

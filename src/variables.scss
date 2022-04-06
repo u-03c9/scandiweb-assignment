@@ -1,4 +1,4 @@
-// =====================
+// =================
 // === VARIABLES ===
 
 $c-primary: #5ece7b;
@@ -53,4 +53,12 @@ $xx-width: 1440px;
   @media (prefers-reduced-motion) {
     transition: none;
   }
+}
+
+// =====================
+// === OTHER MIXINs ===
+@mixin app-width {
+  margin: 0 auto 1rem;
+  width: 93.8%;
+  max-width: 75.5rem;
 }

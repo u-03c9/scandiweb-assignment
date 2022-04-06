@@ -17,11 +17,39 @@ import {
 import HeaderComp from "./components/header/Header.comp";
 import AppRoutes from "./routes";
 
-class App extends React.Component {
+class ReduceMotionNotice extends React.Component {
   state = {
-    showReduceMotionMessage: false,
+    showMessage: false,
   };
 
+  componentDidMount() {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!mediaQuery || mediaQuery.matches) {
+      this.setState({ showReduceMotionMessage: true });
+    }
+  }
+
+  render() {
+    const { showMessage, handleDismiss } = this.props;
+
+    if (showMessage)
+      return (
+        <div id="reduce-motion-message">
+          <div className="container" onClick={() => handleDismiss()}>
+            <p>
+              We respect that you prefer reduced motion and animations,
+              therefore we have disabled it in our website. You can enable it in
+              your operating system / browser to see our small animation
+              <em>click here to dismiss</em>
+            </p>
+          </div>
+        </div>
+      );
+    return null;
+  }
+}
+
+class App extends React.Component {
   componentDidMount() {
     this.props.fetchCategoryNames();
 
@@ -35,31 +63,18 @@ class App extends React.Component {
     const { categoryNames, isLoading, errorMsg } = this.props;
 
     return (
-      <div id="App">
+      <>
         <HeaderComp />
         {/* TODO: create error boundary */}
-        {!isLoading && !errorMsg && categoryNames ? (
-          <Suspense fallback={<SpinnerComp />}>
-            <AppRoutes categoryNames={categoryNames} />
-          </Suspense>
-        ) : null}
-        {this.state.showReduceMotionMessage ? (
-          <div id="reduce-motion-message">
-            <div
-              className="container"
-              onClick={() => this.setState({ showReduceMotionMessage: false })}
-            >
-              <p>
-                We respect that you prefer reduced motion and animations,
-                therefore we have disabled it in our website. You can enable it
-                in your operating system / browser to see our small animation
-                <em>click here to dismiss</em>
-              </p>
-              <p></p>
-            </div>
-          </div>
-        ) : null}
-      </div>
+        <main id="page-container">
+          {!isLoading && !errorMsg && categoryNames ? (
+            <Suspense fallback={<SpinnerComp />}>
+              <AppRoutes categoryNames={categoryNames} />
+            </Suspense>
+          ) : null}
+        </main>
+        <ReduceMotionNotice />
+      </>
     );
   }
 }
