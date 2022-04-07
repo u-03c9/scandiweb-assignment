@@ -23,6 +23,7 @@ class ProductPage extends React.Component {
   };
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     const productId = this.props.params.productId;
 
     this.setState({ isLoading: true });
