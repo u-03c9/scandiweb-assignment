@@ -20,6 +20,7 @@ class CartItemsContainer extends React.Component {
       currentCurrency,
       children,
       className,
+      displayThumbnailArrows,
     } = this.props;
 
     const totalPrice = cartItemsTotalPrice(currentCurrency);
@@ -33,11 +34,12 @@ class CartItemsContainer extends React.Component {
                 key={idx}
                 id={idx}
                 currentCurrency={currentCurrency}
+                displayThumbnailArrows={displayThumbnailArrows}
               />
             ))}
           </div>
         ) : (
-          { children }
+          { ...children }
         )}
 
         <div className="cart-items__total">

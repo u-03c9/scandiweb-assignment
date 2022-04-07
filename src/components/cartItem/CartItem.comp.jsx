@@ -8,13 +8,42 @@ import { selectProductPrice } from "../../redux/currency.reducer";
 
 import { ReactComponent as AddSVG } from "../../assets/add-sign.svg";
 import { ReactComponent as SubSVG } from "../../assets/sub-sign.svg";
+import { ReactComponent as LeftArrowSVG } from "../../assets/arrow-left.svg";
+import { ReactComponent as RightArrowSVG } from "../../assets/arrow-right.svg";
 import TestImage from "../../assets/test.png";
 
 import "./CartItem.styles.scss";
 
 class CartItem extends React.Component {
+  state = {
+    selectedImageIdx: 0,
+  };
+
+  arrowOnClickHandler = (toLeft = true) => {
+    const { selectedImageIdx } = this.state;
+    const { gallery } = this.props.item;
+
+    console.log(gallery.length, selectedImageIdx);
+
+    if (toLeft) {
+      if (selectedImageIdx === 0)
+        this.setState({ selectedImageIdx: gallery.length - 1 });
+      else this.setState({ selectedImageIdx: selectedImageIdx - 1 });
+    } else {
+      if (selectedImageIdx + 1 === gallery.length)
+        this.setState({ selectedImageIdx: 0 });
+      else this.setState({ selectedImageIdx: selectedImageIdx + 1 });
+    }
+  };
+
   render() {
-    const { item, increase, decrease, getProductPrice } = this.props;
+    const {
+      item,
+      increase,
+      decrease,
+      getProductPrice,
+      displayThumbnailArrows,
+    } = this.props;
     const { brand, name, gallery, quantity, selectedAttributes, prices } = item;
 
     const price = getProductPrice(prices);
@@ -62,8 +91,27 @@ class CartItem extends React.Component {
         </div>
         <div
           className="cart-item__thumbnail"
-          style={{ backgroundImage: `url('${TestImage}')` }}
-        ></div>
+          style={{
+            backgroundImage: `url('${TestImage}')`,
+          }}
+        >
+          {displayThumbnailArrows && gallery.length > 1 ? (
+            <>
+              <div
+                className="cart-item__thumbnail__button-container"
+                onClick={() => this.arrowOnClickHandler()}
+              >
+                <LeftArrowSVG className="cart-item__thumbnail__left-arrow" />
+              </div>
+              <div
+                className="cart-item__thumbnail__button-container"
+                onClick={() => this.arrowOnClickHandler(false)}
+              >
+                <RightArrowSVG className="cart-item__thumbnail__right-arrow" />
+              </div>
+            </>
+          ) : null}
+        </div>
       </div>
     );
   }
