@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { compose } from "@reduxjs/toolkit";
 import { createStructuredSelector } from "reselect";
 
-import { selectCurrentCurrency } from "../../redux/currency.reducer.js";
+import { selectProductPrice } from "../../redux/currency.reducer";
 import { withNavigation } from "../../HOC.js";
 
 import { ReactComponent as CartSVG } from "../../assets/circle-cart.svg";
@@ -13,13 +13,10 @@ import "./CategoryItem.styles.scss";
 
 class CategoryItem extends React.Component {
   render() {
-    const { product, selectedCurrency, navigate } = this.props;
+    const { product, navigate, getProductPrice } = this.props;
     const { id, brand, name, gallery, inStock, prices } = product;
 
-    // TODO: find an class alternatives to memoize this function
-    const price = prices.find(
-      (p) => p.currency.label === selectedCurrency.label
-    );
+    const price = getProductPrice(prices);
 
     return (
       <div className="category-item" onClick={() => navigate(`/product/${id}`)}>
@@ -39,10 +36,7 @@ class CategoryItem extends React.Component {
         </div>
         <div className="footer">
           <h3 className="name">{`${brand} ${name}`}</h3>
-          <span className="price">
-            {price.currency.symbol}
-            {price.amount}
-          </span>
+          <span className="price">{price}</span>
         </div>
         {inStock ? null : <div className="out-of-stock-overlay" />}
       </div>
@@ -51,7 +45,7 @@ class CategoryItem extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  selectedCurrency: selectCurrentCurrency,
+  getProductPrice: (prices) => selectProductPrice(prices),
 });
 
 export default compose(connect(mapStateToProps), withNavigation)(CategoryItem);
