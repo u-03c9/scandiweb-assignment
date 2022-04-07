@@ -2,18 +2,18 @@ import React from "react";
 import { connect } from "react-redux";
 import { compose } from "@reduxjs/toolkit";
 import { createStructuredSelector } from "reselect";
+import sanitizeHtml from "sanitize-html";
 
 import { withNavigation, withParams } from "../../HOC";
 import { fetchProductInfo } from "../../api";
-import { selectCurrentCurrency } from "../../redux/currency.reducer";
-
-import SpinnerComp from "../../components/spinner/Spinner.comp";
-import "./Product.styles.scss";
+import { selectProductPrice } from "../../redux/currency.reducer";
+import { addItemToCart } from "../../redux/cart.reducer";
 
 import TestImage from "../../assets/test.png";
-import sanitizeHtml from "sanitize-html";
+
+import SpinnerComp from "../../components/spinner/Spinner.comp";
 import ProductAttribute from "../../components/productAttribute/ProductAttribute.comp";
-import { addItemToCart } from "../../redux/cart.reducer";
+import "./Product.styles.scss";
 
 class ProductPage extends React.Component {
   state = {
@@ -46,7 +46,7 @@ class ProductPage extends React.Component {
 
     if (isLoading) return <SpinnerComp />;
     else if (product) {
-      const { currentCurrency, addItemToCart } = this.props;
+      const { addItemToCart, getProductPrice } = this.props;
       const { selectedImage } = this.state;
       const {
         id,
@@ -59,79 +59,76 @@ class ProductPage extends React.Component {
         inStock,
       } = product;
 
-      const price = prices.find(
-        (p) => p.currency.label === currentCurrency.label
-      );
-
+      const price = getProductPrice(prices);
       const safeDescription = sanitizeHtml(description);
 
       const handleSubmit = (e) => {
         e.preventDefault();
         if (!inStock) return;
-        let formData = {};
-        new FormData(e.target).forEach((value, key) => {
-          formData[key] = value;
+        let cartItem = {
+          productId: id,
+          selectedAttributes: {},
+          brand,
+          name,
+          gallery,
+          attributes,
+          prices,
+        };
+        const formData = new FormData(e.target);
+        formData.forEach((value, key) => {
+          cartItem.selectedAttributes[key] = value;
         });
-        console.log(formData);
-        addItemToCart(formData);
+        addItemToCart(cartItem);
       };
 
       return (
         <div id="product-page">
-          <div className="images">
-            <div className="thumbnails-container">
+          <div className="product-page__images">
+            <div className="product-page__thumbnails-container">
               {gallery.map((image, idx) => (
-                // <div
-                //   className="thumbnail"
-                //   key={idx}
-                //   style={{ backgroundImage: `url('${image}')` }}
-                //   onClick={() => this.setState({ selectedImage: idx })}
-                // />
-
                 // TODO: temporary use a test image to save data, remove later
-                <div
-                  className="thumbnail"
+                <img
+                  className="product-page__thumbnail"
                   key={idx}
                   onClick={() => this.setState({ selectedImage: idx })}
-                >
-                  <div
-                    className="thumbnail-image"
-                    style={{ backgroundImage: `url('${TestImage}')` }}
-                  />
-                </div>
-              ))}
-            </div>
-            {/* <img src={gallery[selectedImage]} alt="" className="full-image" /> */}
-            {/* // TODO: temporary use a test image to save data, remove later */}
-            <img src={TestImage} alt="" className="full-image" />
-          </div>
-
-          <div className="info">
-            <form onSubmit={handleSubmit}>
-              <input type="hidden" value={id} name="id" />
-              <h2 className="brand">{brand}</h2>
-              <h1 className="name">{name}</h1>
-              {attributes.map((item) => (
-                <ProductAttribute
-                  attribute={item}
-                  productId={id}
-                  key={item.id}
+                  src={TestImage}
                 />
               ))}
-              <div className="price">
-                <span className="price-title">price:</span>
-                <span className="price-value">
-                  {price.currency.symbol}
-                  {price.amount}
+            </div>
+            {/* // TODO: temporary use a test image to save data, remove later */}
+            <img src={TestImage} alt="" className="product-page__full-image" />
+          </div>
+
+          <div className="product-page__info">
+            <form onSubmit={handleSubmit}>
+              <h2 className="product-page__info__brand">{brand}</h2>
+              <h1 className="product-page__info__name">{name}</h1>
+              <div className="product-page__info__attributes">
+                {attributes.map((item) => (
+                  <ProductAttribute
+                    attribute={item}
+                    productId={id}
+                    key={item.id}
+                  />
+                ))}
+              </div>
+              <div className="product-page__info__price">
+                <span className="product-page__info__price__title">price:</span>
+                <span className="product-page__info__price__value">
+                  {price}
                 </span>
               </div>
 
-              <button className="add-to-cart" type="submit" disabled={!inStock}>
+              <button
+                className="product-page__info__add-to-cart"
+                type="submit"
+                disabled={!inStock}
+              >
                 {inStock ? "add to cart" : "out of stock"}
               </button>
             </form>
             <div
-              className="description"
+              className="product-page__info__description"
               dangerouslySetInnerHTML={{ __html: safeDescription }}
             />
           </div>
@@ -142,11 +139,11 @@ class ProductPage extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentCurrency: selectCurrentCurrency,
+  getProductPrice: (prices) => selectProductPrice(prices),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addItemToCart: (product) => dispatch(addItemToCart(product)),
+  addItemToCart: (item) => dispatch(addItemToCart({ item })),
 });
 
 export default compose(
