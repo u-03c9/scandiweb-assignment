@@ -42,10 +42,12 @@ class CartItemsContainer extends React.Component {
           { ...children }
         )}
 
-        <div className="cart-items__total">
-          <span>Total</span>
-          <span>{totalPrice}</span>
-        </div>
+        {!cartItemsTotalCount && displayThumbnailArrows ? null : (
+          <div className="cart-items__total">
+            <span>Total</span>
+            <span>{totalPrice}</span>
+          </div>
+        )}
       </div>
     );
   }

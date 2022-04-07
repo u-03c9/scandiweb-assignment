@@ -27,6 +27,9 @@
 }
 
 .cart-menu__cart-items-container {
+  display: flex;
+  flex-direction: column;
+
   .cart-items-container__items {
     margin-top: 1.5rem;
     overflow-x: none;

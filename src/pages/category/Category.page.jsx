@@ -1,10 +1,8 @@
-// external
 import React from "react";
 import { connect } from "react-redux";
 import { compose } from "@reduxjs/toolkit";
 import { createStructuredSelector } from "reselect";
 
-// internal
 import { withParams } from "../../HOC";
 import {
   getCategoryProductsAsync,
@@ -13,7 +11,6 @@ import {
 
 import "./Category.styles.scss";
 
-// components
 import CategoryItem from "../../components/categoryItem/CategoryItem.comp";
 
 class CategoryPage extends React.Component {

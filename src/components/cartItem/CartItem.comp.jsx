@@ -23,8 +23,6 @@ class CartItem extends React.Component {
     const { selectedImageIdx } = this.state;
     const { gallery } = this.props.item;
 
-    console.log(gallery.length, selectedImageIdx);
-
     if (toLeft) {
       if (selectedImageIdx === 0)
         this.setState({ selectedImageIdx: gallery.length - 1 });
