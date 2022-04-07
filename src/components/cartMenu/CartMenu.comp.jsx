@@ -4,15 +4,10 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
 import { dismissCartMenu } from "../../redux/ui.reducer";
-import { selectCurrentCurrency } from "../../redux/currency.reducer";
-import {
-  selectCartItems,
-  selectCartItemsTotalCount,
-  selectCartItemsTotalPrice,
-} from "../../redux/cart.reducer";
+import { selectCartItemsTotalCount } from "../../redux/cart.reducer";
 
-import CartMenuItem from "../cartMenuItem/CartMenuItem.comp";
 import "./CartMenu.styles.scss";
+import CartItemsContainer from "../cartItem/CartItems.container";
 
 class CartMenu extends React.Component {
   dismissMenuHandler = () => {
@@ -28,14 +23,7 @@ class CartMenu extends React.Component {
   }
 
   render() {
-    const {
-      cartItems,
-      cartItemsTotalCount,
-      cartItemsTotalPrice,
-      currentCurrency,
-    } = this.props;
-
-    const totalPrice = cartItemsTotalPrice(currentCurrency);
+    const { cartItemsTotalCount, dismissMenu } = this.props;
 
     return (
       <div className="cart-menu" onClick={(e) => e.stopPropagation()}>
@@ -43,34 +31,19 @@ class CartMenu extends React.Component {
           My Bag, <span>{cartItemsTotalCount} items</span>
         </div>
 
-        {cartItemsTotalCount ? (
-          <div className="cart-menu__items">
-            {cartItems.map((item, idx) => (
-              <CartMenuItem
-                item={item}
-                key={idx}
-                id={idx}
-                currentCurrency={currentCurrency}
-              />
-            ))}
-          </div>
-        ) : (
+        <CartItemsContainer className="cart-menu__cart-items-container">
           <span className="cart-menu__no-items">
             There are no Items in your bag
           </span>
-        )}
-
-        <div className="cart-menu__total">
-          <span>Total</span>
-          <span>
-            {currentCurrency.symbol}
-            {totalPrice}
-          </span>
-        </div>
+        </CartItemsContainer>
 
         <div className="cart-menu__buttons">
-          <Link to="/checkout">view bag</Link>
-          <Link to="/checkout">check out</Link>
+          <Link to="/checkout" onClick={dismissMenu}>
+            view bag
+          </Link>
+          <Link to="/checkout" onClick={dismissMenu}>
+            check out
+          </Link>
         </div>
       </div>
     );
@@ -78,10 +51,7 @@ class CartMenu extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentCurrency: selectCurrentCurrency,
-  cartItems: selectCartItems,
   cartItemsTotalCount: selectCartItemsTotalCount,
-  cartItemsTotalPrice: (currency) => selectCartItemsTotalPrice(currency),
 });
 
 const mapDispatchToProps = (dispatch) => ({
