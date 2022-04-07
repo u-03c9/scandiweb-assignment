@@ -14,30 +14,33 @@ import "./CartMenuItem.styles.scss";
 
 class CartMenuItem extends React.Component {
   render() {
-    const { currentCurrency, item, increase, decrease, getProductPrice } =
-      this.props;
+    const { item, increase, decrease, getProductPrice } = this.props;
     const { brand, name, gallery, quantity, selectedAttributes, prices } = item;
 
     const price = getProductPrice(prices);
 
     const displayedAttributes = map(selectedAttributes, (value, key) => {
+      const isYesNo = ["yes", "no"].includes(value.toLowerCase());
+      const isSwatch = value.startsWith("#");
+
       return (
         <span
           key={key}
-          className={`cart-menu-item__attribute
+          className={`cart-menu-item__attribute 
           ${
             value.toLowerCase() === "no" ? "cart-menu-item__attribute__no" : ""
           }`}
+          style={{ backgroundColor: isSwatch ? value : "initial" }}
         >
-          {["yes", "no"].includes(value.toLowerCase()) ? key : value}
+          {isSwatch ? "" : isYesNo ? key : value}
         </span>
       );
     });
 
     return (
       <div className="cart-menu-item">
-        <div className="cart-menu-item__info">
-          <div>
+        <div className="cart-menu-item__left">
+          <div className="cart-menu-item__info">
             <h2 className="cart-menu-item__info__brand">{brand}</h2>
             <h1 className="cart-menu-item__info__name">{name}</h1>
             <span className="cart-menu-item__info__price">{price}</span>
