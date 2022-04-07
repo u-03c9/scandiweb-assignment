@@ -1,25 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from "react";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import "./App.scss";
+import SpinnerComp from "./components/spinner/Spinner.comp";
+import {
+  getCategoryNamesAsync,
+  selectCategoryNames,
+  selectHasNetworkError,
+  selectIsLoading,
+} from "./redux/shop.reducer";
+
+import HeaderComp from "./components/header/Header.comp";
+import AppRoutes from "./routes";
+import ServerErrorPage from "./pages/serverError/ServerError.page";
+
+class App extends React.Component {
+  componentDidMount() {
+    this.props.fetchCategoryNames();
+  }
+
+  render() {
+    const { categoryNames, isLoading, hasNetworkError } = this.props;
+
+    return (
+      <>
+        {isLoading ? (
+          <SpinnerComp />
+        ) : hasNetworkError ? (
+          <ServerErrorPage />
+        ) : (
+          <>
+            <HeaderComp />
+            <main id="page-container">
+              <Suspense fallback={<SpinnerComp />}>
+                <AppRoutes categoryNames={categoryNames} />
+              </Suspense>
+            </main>
+          </>
+        )}
+      </>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = createStructuredSelector({
+  categoryNames: selectCategoryNames,
+  isLoading: selectIsLoading,
+  hasNetworkError: selectHasNetworkError,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchCategoryNames: () => dispatch(getCategoryNamesAsync()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
