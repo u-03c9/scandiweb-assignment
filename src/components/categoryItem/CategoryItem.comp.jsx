@@ -7,7 +7,6 @@ import { selectProductPrice } from "../../redux/currency.reducer";
 import { withNavigation } from "../../HOC.js";
 
 import { ReactComponent as CartSVG } from "../../assets/circle-cart.svg";
-import TestImage from "../../assets/test.png"; // TODO: remove the test image
 
 import "./CategoryItem.styles.scss";
 
@@ -21,10 +20,9 @@ class CategoryItem extends React.Component {
     return (
       <div className="category-item" onClick={() => navigate(`/product/${id}`)}>
         <div className="image-container">
-          {/* @@ temporary using a static test image */}
           <div
             className="image"
-            style={{ backgroundImage: `url('${TestImage}')` }}
+            style={{ backgroundImage: `url('${gallery[0]}')` }}
           />
           {inStock ? (
             <CartSVG className="cart-icon" />
