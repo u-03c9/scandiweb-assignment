@@ -1,4 +1,4 @@
-@import "../../variables.scss";
+@import "../../assets/scss/variables.scss";
 
 .cart-menu {
   position: absolute;
@@ -31,9 +31,8 @@
   flex-direction: column;
 
   .cart-items-container__items {
+    @include custom-scrollbar;
     margin-top: 1.5rem;
-    overflow-x: none;
-    overflow-y: auto;
     max-height: 20.1rem;
     display: flex;
     flex-direction: column;

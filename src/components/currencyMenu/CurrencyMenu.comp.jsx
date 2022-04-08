@@ -33,14 +33,17 @@ class CurrencyMenu extends React.Component {
       this.props.setCurrentCurrency(currency);
     };
 
+    // item 7af
     const { currencyOptions, currentCurrency } = this.props;
     return (
       <div className="currency-menu">
         {currencyOptions
           ? currencyOptions.map(({ label, symbol }) => (
               <div
-                className={`item ${
-                  label === currentCurrency.label ? "active" : ""
+                className={`currency-menu__item ${
+                  label === currentCurrency.label
+                    ? "currency-menu__item__active"
+                    : ""
                 }`}
                 key={label}
                 onClick={(e) => handleClick(e, { label, symbol })}

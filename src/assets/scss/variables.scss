@@ -62,3 +62,24 @@ $xx-width: 1440px;
   width: 93.8vw;
   max-width: 75.5rem;
 }
+
+@mixin custom-scrollbar {
+  $width: 0.1rem;
+  $color: #aaa;
+  $background: transparent;
+
+  scrollbar-color: $color;
+  scrollbar-width: $width;
+  overflow-x: none;
+  overflow-y: auto;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    background-color: $background;
+    width: $width;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $color;
+  }
+}

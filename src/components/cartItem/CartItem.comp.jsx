@@ -6,10 +6,10 @@ import { createStructuredSelector } from "reselect";
 import { addItemToCart, removeItemFromCart } from "../../redux/cart.reducer";
 import { selectProductPrice } from "../../redux/currency.reducer";
 
-import { ReactComponent as AddSVG } from "../../assets/add-sign.svg";
-import { ReactComponent as SubSVG } from "../../assets/sub-sign.svg";
-import { ReactComponent as LeftArrowSVG } from "../../assets/arrow-left.svg";
-import { ReactComponent as RightArrowSVG } from "../../assets/arrow-right.svg";
+import { ReactComponent as AddSVG } from "../../assets/images/add-sign.svg";
+import { ReactComponent as SubSVG } from "../../assets/images/sub-sign.svg";
+import { ReactComponent as LeftArrowSVG } from "../../assets/images/arrow-left.svg";
+import { ReactComponent as RightArrowSVG } from "../../assets/images/arrow-right.svg";
 
 import "./CartItem.styles.scss";
 

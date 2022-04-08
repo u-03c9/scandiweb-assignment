@@ -1,4 +1,4 @@
-@import "../../variables.scss";
+@import "../../assets/scss/variables.scss";
 
 #product-page {
   margin-top: 6rem;
@@ -21,9 +21,7 @@
 }
 
 .product-page__thumbnails-container {
-  overflow-y: scroll;
-  scrollbar-width: none;
-  overflow-x: hidden;
+  @include custom-scrollbar;
   display: flex;
   flex-direction: column;
   gap: 6%;
@@ -34,9 +32,6 @@
   cursor: pointer;
   width: 100%;
   aspect-ratio: 1/1;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
   object-fit: cover;
   object-position: center;
 }
@@ -45,15 +40,14 @@
   height: 100%;
   width: 100%;
   aspect-ratio: 1/1;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
   object-fit: contain;
   object-position: top;
 }
 
 .product-page__info {
   margin: 2.5rem auto 0;
+  font-size: 1.875rem;
+  line-height: 1.875rem;
 
   @include md {
     margin: 0;
@@ -64,14 +58,10 @@
 
 .product-page__info__brand {
   font-weight: 600;
-  font-size: 1.875rem;
-  font-size: 1.875rem;
 }
 
 .product-page__info__name {
   font-weight: 400;
-  font-size: 1.875rem;
-  line-height: 1.875rem;
 }
 
 .product-page__info__sizes {

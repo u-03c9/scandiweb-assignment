@@ -1,4 +1,4 @@
-@import "../../variables.scss";
+@import "../../assets/scss/variables.scss";
 
 header .currency-menu {
   position: absolute;
@@ -12,7 +12,7 @@ header .currency-menu {
   flex-direction: column;
   z-index: 40;
 
-  .item {
+  .currency-menu__item {
     padding: 0.65rem 1.25rem;
     font-weight: 500;
     font-size: 1.125rem;
@@ -27,7 +27,7 @@ header .currency-menu {
       background-color: $c-primary;
     }
 
-    &.active {
+    &.currency-menu__item__active {
       color: $c-primary;
 
       &:hover {

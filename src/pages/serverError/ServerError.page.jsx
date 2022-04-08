@@ -1,6 +1,6 @@
 import React from "react";
 
-import Img500 from "../../assets/500.webp";
+import Img500 from "../../assets/images/500.webp";
 import "./ServerError.styles.scss";
 
 class ServerErrorPage extends React.Component {

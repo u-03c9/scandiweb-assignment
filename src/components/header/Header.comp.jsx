@@ -4,7 +4,7 @@ import { createStructuredSelector } from "reselect";
 
 import { selectIsCartMenuOpen } from "../../redux/ui.reducer";
 
-import { ReactComponent as LogoSVG } from "../../assets/logo.svg";
+import { ReactComponent as LogoSVG } from "../../assets/images/logo.svg";
 
 import "./Header.styles.scss";
 

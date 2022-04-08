@@ -5,7 +5,7 @@ import { createStructuredSelector } from "reselect";
 import { selectCartItemsTotalCount } from "../../redux/cart.reducer";
 import { selectIsCartMenuOpen, toggleCartMenu } from "../../redux/ui.reducer";
 
-import { ReactComponent as CartSVG } from "../../assets/empty-cart.svg";
+import { ReactComponent as CartSVG } from "../../assets/images/empty-cart.svg";
 
 import CartMenu from "../cartMenu/CartMenu.comp";
 import "./CartIcon.styles.scss";
