@@ -1,9 +1,7 @@
-@import "../../variables.scss";
+@import "../../assets/scss/variables.scss";
 
 .cart-menu {
   position: absolute;
-  right: 0;
-  top: 3.5rem;
   width: 20.3125rem;
   background-color: $c-white;
   z-index: 50;
@@ -12,8 +10,11 @@
   padding: 6px 1.25rem 20px;
   box-shadow: 0 0.25rem 0.25rem rgba($color: #000, $alpha: 0.25);
 
+  right: 0;
+  top: calc($navbar-height - 0.2rem);
   @include sm {
     right: -1rem;
+    top: calc($navbar-height + 0.8rem);
   }
 }
 
@@ -31,10 +32,9 @@
   flex-direction: column;
 
   .cart-items-container__items {
+    @include custom-scrollbar;
     margin-top: 1.5rem;
-    overflow-x: none;
-    overflow-y: auto;
-    max-height: 20.1rem;
+    max-height: 20.5rem;
     display: flex;
     flex-direction: column;
     gap: 2.5rem;

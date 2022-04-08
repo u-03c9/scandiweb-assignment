@@ -6,7 +6,7 @@ import { createStructuredSelector } from "reselect";
 import { selectProductPrice } from "../../redux/currency.reducer";
 import { withNavigation } from "../../HOC.js";
 
-import { ReactComponent as CartSVG } from "../../assets/circle-cart.svg";
+import { ReactComponent as CartSVG } from "../../assets/images/circle-cart.svg";
 
 import "./CategoryItem.styles.scss";
 

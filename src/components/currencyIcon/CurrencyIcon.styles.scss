@@ -1,4 +1,4 @@
-@import "../../variables.scss";
+@import "../../assets/scss/variables.scss";
 
 header .currency-icon {
   height: 100%;
@@ -20,10 +20,11 @@ header .currency-icon {
   }
 
   svg {
+    width: 1.125rem;
     @include transition;
   }
 
-  &.active {
+  &.currency-icon__active {
     filter: $filter-to-c-primary;
     svg {
       transform: rotate(180deg);

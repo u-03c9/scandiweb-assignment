@@ -6,12 +6,11 @@ import { withLocation } from "../../HOC";
 class NavLink extends React.Component {
   render() {
     const { children, location, to, ...props } = this.props;
-
     const isActive =
       location.pathname === "/" + to ||
       (location.pathname === "/" && to === "all")
-        ? "active"
-        : "";
+        ? "nav-link nav-link__active"
+        : "nav-link";
 
     return (
       <Link to={to} {...props} className={isActive}>

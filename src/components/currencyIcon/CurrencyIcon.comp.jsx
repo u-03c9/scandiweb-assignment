@@ -8,7 +8,7 @@ import {
   toggleCurrencyMenu,
 } from "../../redux/ui.reducer";
 
-import { ReactComponent as ArrowSVG } from "../../assets/down-arrow.svg";
+import { ReactComponent as ArrowSVG } from "../../assets/images/down-arrow.svg";
 
 import "./CurrencyIcon.styles.scss";
 
@@ -26,7 +26,7 @@ class CurrencyIcon extends React.Component {
     return (
       <>
         <div
-          className={`currency-icon ${isMenuOpen ? "active" : ""}`}
+          className={`currency-icon ${isMenuOpen ? "currency-icon__active" : ""}`}
           onClick={handleOnClick}
         >
           <span>{currencySymbol}</span>

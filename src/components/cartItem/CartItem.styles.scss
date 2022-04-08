@@ -1,4 +1,4 @@
-@import "../../variables.scss";
+@import "../../assets/scss/variables.scss";
 
 .cart-item {
   min-height: 8.5625rem;
@@ -9,8 +9,7 @@
 .cart-item__left {
   display: flex;
   flex-direction: column;
-  font-size: 16px;
-
+  font-size: 1rem;
   justify-content: space-between;
 }
 
@@ -25,8 +24,11 @@
 }
 
 .cart-item__info__price {
-  margin-top: 0.6rem;
   font-weight: 500;
+  margin-top: 0;
+  @include sm {
+    margin-top: 0.6rem;
+  }
 }
 
 .cart-item__attributes {

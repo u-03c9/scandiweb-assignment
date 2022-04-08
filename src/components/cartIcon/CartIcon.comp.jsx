@@ -5,7 +5,7 @@ import { createStructuredSelector } from "reselect";
 import { selectCartItemsTotalCount } from "../../redux/cart.reducer";
 import { selectIsCartMenuOpen, toggleCartMenu } from "../../redux/ui.reducer";
 
-import { ReactComponent as CartSVG } from "../../assets/empty-cart.svg";
+import { ReactComponent as CartSVG } from "../../assets/images/empty-cart.svg";
 
 import CartMenu from "../cartMenu/CartMenu.comp";
 import "./CartIcon.styles.scss";
@@ -22,13 +22,13 @@ class CartIcon extends React.Component {
     return (
       <>
         <div
-          className={`cart-icon ${isMenuOpen ? "active" : ""}`}
+          className={`cart-icon ${isMenuOpen ? "cart-icon__active" : ""}`}
           onClick={handleOnClick}
         >
-          <div className="inner">
+          <div className="cart-icon__inner">
             <CartSVG />
             {itemsCount > 0 ? (
-              <span className="label">
+              <span className="cart-icon__label">
                 {itemsCount > 9 ? "+9" : itemsCount}
               </span>
             ) : null}
