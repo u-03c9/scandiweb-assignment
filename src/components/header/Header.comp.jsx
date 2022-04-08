@@ -18,12 +18,12 @@ class HeaderComp extends React.Component {
 
     return (
       <>
-        {isCartMenuOpen ? <div id="overlay" /> : null}
+        {isCartMenuOpen ? <div className="header__overlay" /> : null}
         <header>
           <div className="header__navbar">
             <NavMenu />
             <div className="header__logo">
-              <LogoSVG />
+              <LogoSVG className="header__logo__svg" />
             </div>
             <div className="header__right-side">
               <CurrencyIcon />

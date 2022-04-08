@@ -1,12 +1,9 @@
 @import "../../assets/scss/variables.scss";
 
-$navbar-height: 5rem;
-$navbar-margin-top: 1.5rem;
-
 header {
   position: relative;
-  padding-top: 1.5rem;
-  height: $navbar-height;
+  padding-top: $navbar-padding-top;
+  height: auto;
   background-color: $c-white;
   width: 100%;
   z-index: 10;
@@ -15,15 +12,26 @@ header {
     height: 100%;
     @include app-width;
     display: grid;
-    grid-template-columns: 45% 10% 45%;
     align-items: center;
     position: relative;
+    grid-template-columns: auto 0% auto;
+
+    @include sm {
+      grid-template-columns: 45% 10% 45%;
+    }
 
     .header__logo {
-      height: 100%;
+      height: 2rem;
       display: flex;
       justify-content: center;
       align-items: center;
+
+      .header__logo__svg {
+        display: none;
+        @include sm {
+          display: block;
+        }
+      }
     }
 
     .header__right-side {
@@ -36,7 +44,7 @@ header {
   }
 }
 
-#overlay {
+.header__overlay {
   position: fixed;
   top: 0;
   right: 0;

@@ -2,7 +2,6 @@
 
 header .currency-menu {
   position: absolute;
-  right: 0;
   top: 2.5rem;
   width: 7.125rem;
   background-color: $c-white;
@@ -11,6 +10,11 @@ header .currency-menu {
   display: flex;
   flex-direction: column;
   z-index: 40;
+
+  right: 0.5rem;
+  @include sm {
+    right: -0.8rem;
+  }
 
   .currency-menu__item {
     padding: 0.65rem 1.25rem;
@@ -34,9 +38,5 @@ header .currency-menu {
         color: $c-white;
       }
     }
-  }
-
-  @include lg {
-    right: -1.35rem;
   }
 }

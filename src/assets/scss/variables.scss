@@ -83,3 +83,10 @@ $xx-width: 1440px;
     background-color: $color;
   }
 }
+
+$navbar-padding-top: 1.75rem;
+$navbar-height: 3rem;
+
+@include md {
+  $navbar-height: 3.5rem;
+}

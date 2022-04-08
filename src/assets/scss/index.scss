@@ -12,9 +12,18 @@
 
 html {
   margin: 0;
+  font-size: 10px;
   line-height: 1.5;
   font-family: "Raleway", Arial, Helvetica, sans-serif;
   overflow-y: scroll;
+
+  @include sm {
+    font-size: 12px;
+  }
+
+  @include md {
+    font-size: 14px;
+  }
 }
 
 a {

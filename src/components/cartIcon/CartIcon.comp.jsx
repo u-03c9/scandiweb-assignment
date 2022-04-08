@@ -22,13 +22,13 @@ class CartIcon extends React.Component {
     return (
       <>
         <div
-          className={`cart-icon ${isMenuOpen ? "active" : ""}`}
+          className={`cart-icon ${isMenuOpen ? "cart-icon__active" : ""}`}
           onClick={handleOnClick}
         >
-          <div className="inner">
+          <div className="cart-icon__inner">
             <CartSVG />
             {itemsCount > 0 ? (
-              <span className="label">
+              <span className="cart-icon__label">
                 {itemsCount > 9 ? "+9" : itemsCount}
               </span>
             ) : null}
