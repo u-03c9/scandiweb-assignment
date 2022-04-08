@@ -33,11 +33,18 @@
 .product-page__thumbnail {
   cursor: pointer;
   width: 100%;
+  aspect-ratio: 1/1;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  object-fit: cover;
+  object-position: center;
 }
 
 .product-page__full-image {
   height: 100%;
   width: 100%;
+  aspect-ratio: 1/1;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

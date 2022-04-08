@@ -10,7 +10,6 @@ import { ReactComponent as AddSVG } from "../../assets/add-sign.svg";
 import { ReactComponent as SubSVG } from "../../assets/sub-sign.svg";
 import { ReactComponent as LeftArrowSVG } from "../../assets/arrow-left.svg";
 import { ReactComponent as RightArrowSVG } from "../../assets/arrow-right.svg";
-import TestImage from "../../assets/test.png";
 
 import "./CartItem.styles.scss";
 
@@ -43,6 +42,7 @@ class CartItem extends React.Component {
       displayThumbnailArrows,
     } = this.props;
     const { brand, name, gallery, quantity, selectedAttributes, prices } = item;
+    const { selectedImageIdx } = this.state;
 
     const price = getProductPrice(prices);
 
@@ -90,7 +90,7 @@ class CartItem extends React.Component {
         <div
           className="cart-item__thumbnail"
           style={{
-            backgroundImage: `url('${TestImage}')`,
+            backgroundImage: `url('${gallery[selectedImageIdx]}')`,
           }}
         >
           {displayThumbnailArrows && gallery.length > 1 ? (

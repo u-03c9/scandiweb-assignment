@@ -9,8 +9,6 @@ import { fetchProductInfo } from "../../api";
 import { selectProductPrice } from "../../redux/currency.reducer";
 import { addItemToCart } from "../../redux/cart.reducer";
 
-import TestImage from "../../assets/test.png";
-
 import SpinnerComp from "../../components/spinner/Spinner.comp";
 import ProductAttribute from "../../components/productAttribute/ProductAttribute.comp";
 import "./Product.styles.scss";
@@ -91,17 +89,20 @@ class ProductPage extends React.Component {
           <div className="product-page__images">
             <div className="product-page__thumbnails-container">
               {gallery.map((image, idx) => (
-                // TODO: temporary use a test image to save data, remove later
                 <img
                   className="product-page__thumbnail"
                   key={idx}
                   onClick={() => this.setState({ selectedImage: idx })}
-                  src={TestImage}
+                  src={image}
+                  alt=""
                 />
               ))}
             </div>
-            {/* // TODO: temporary use a test image to save data, remove later */}
-            <img src={TestImage} alt="" className="product-page__full-image" />
+            <img
+              src={gallery[selectedImage]}
+              alt=""
+              className="product-page__full-image"
+            />
           </div>
 
           <div className="product-page__info">
