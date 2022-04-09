@@ -5,7 +5,7 @@ import { selectCategoryNames } from "../../redux/shop.reducer";
 
 import "./NavMenu.styles.scss";
 
-import CustomLink from "../customLink/CustomLink.comp";
+import CustomLink from "../../base/customLink/CustomLink.comp";
 
 class NavMenu extends React.Component {
   render() {

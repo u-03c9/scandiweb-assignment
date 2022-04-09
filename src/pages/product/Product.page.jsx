@@ -9,7 +9,7 @@ import { fetchProductInfo } from "../../api";
 import { selectProductPrice } from "../../redux/currency.reducer";
 import { addItemToCart } from "../../redux/cart.reducer";
 
-import SpinnerComp from "../../components/spinner/Spinner.comp";
+import SpinnerComp from "../../base/spinner/Spinner.comp";
 import ProductAttribute from "../../components/productAttribute/ProductAttribute.comp";
 import "./Product.styles.scss";
 

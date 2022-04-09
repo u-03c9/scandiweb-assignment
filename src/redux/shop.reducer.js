@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 
-import { fetchCategoryNames, fetchCategoryProducts } from "../api";
+import { fetchCategoryProducts, fetchInitialData } from "../api";
+import { setCurrencyOptions } from "./currency.reducer";
 
 // =====================
 // === INITIAL STATE ===
@@ -73,12 +74,13 @@ export const selectCategoryProducts = createSelector(
 // =============
 // === THUNK ===
 
-export const getCategoryNamesAsync = () => {
+export const fetchInitialDataAsync = () => {
   return (dispatch) => {
     dispatch(setIsLoading(true));
-    fetchCategoryNames()
-      .then((res) => {
-        dispatch(setCategoryNames(res));
+    fetchInitialData()
+      .then(({ categories, currencies }) => {
+        dispatch(setCategoryNames(categories));
+        dispatch(setCurrencyOptions(currencies));
       })
       .catch((_err) => dispatch(setHasNetworkError(true)))
       .finally(() => dispatch(setIsLoading(false)));
