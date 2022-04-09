@@ -4,7 +4,7 @@ import { createStructuredSelector } from "reselect";
 
 import SpinnerComp from "./components/spinner/Spinner.comp";
 import {
-  getCategoryNamesAsync,
+  fetchInitialDataAsync,
   selectCategoryNames,
   selectHasNetworkError,
   selectIsLoading,
@@ -16,30 +16,25 @@ import ServerErrorPage from "./pages/serverError/ServerError.page";
 
 class App extends React.Component {
   componentDidMount() {
-    this.props.fetchCategoryNames();
+    this.props.fetchInitialData();
   }
 
   render() {
     const { categoryNames, isLoading, hasNetworkError } = this.props;
 
-    return (
-      <>
-        {isLoading ? (
-          <SpinnerComp />
-        ) : hasNetworkError ? (
-          <ServerErrorPage />
-        ) : (
-          <>
-            <HeaderComp />
-            <main id="page-container">
-              <Suspense fallback={<SpinnerComp />}>
-                <AppRoutes categoryNames={categoryNames} />
-              </Suspense>
-            </main>
-          </>
-        )}
-      </>
-    );
+    if (isLoading) return <SpinnerComp />;
+    else if (hasNetworkError) return <ServerErrorPage />;
+    else
+      return (
+        <>
+          <HeaderComp />
+          <main id="page-container">
+            <Suspense fallback={<SpinnerComp />}>
+              <AppRoutes categoryNames={categoryNames} />
+            </Suspense>
+          </main>
+        </>
+      );
   }
 }
 
@@ -50,7 +45,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchCategoryNames: () => dispatch(getCategoryNamesAsync()),
+  fetchInitialData: () => dispatch(fetchInitialDataAsync()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

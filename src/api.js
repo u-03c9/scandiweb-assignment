@@ -7,16 +7,23 @@ const apiClient = new ApolloClient({
   }),
 });
 
-const CATEGORY_NAMES_QUERY = gql`
-  query CategoryNames {
+const INITIAL_DATA_QUERY = gql`
+  query InitialData {
     categories {
       name
     }
+    currencies {
+      label
+      symbol
+    }
   }
 `;
-export const fetchCategoryNames = async () => {
-  const res = await apiClient.query({ query: CATEGORY_NAMES_QUERY });
-  return res.data.categories;
+
+export const fetchInitialData = async () => {
+  const {
+    data: { categories, currencies },
+  } = await apiClient.query({ query: INITIAL_DATA_QUERY });
+  return { categories, currencies };
 };
 
 const CATEGORY_PRODUCTS_QUERY = gql`
@@ -46,19 +53,6 @@ export const fetchCategoryProducts = async (categoryName) => {
     variables: { title: categoryName },
   });
   return res.data.category.products;
-};
-
-const CURRENCY_OPTIONS_QUERY = gql`
-  query CurrencyOptions {
-    currencies {
-      label
-      symbol
-    }
-  }
-`;
-export const fetchCurrencyOptions = async () => {
-  const res = await apiClient.query({ query: CURRENCY_OPTIONS_QUERY });
-  return res.data.currencies;
 };
 
 const PRODUCT_INFO_QUERY = gql`

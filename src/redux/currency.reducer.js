@@ -1,15 +1,11 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { fetchCurrencyOptions } from "../api";
 import { formatPrice } from "./utils";
 
 // =====================
 // === INITIAL STATE ===
 
 const initialState = {
-  currentCurrency: {
-    label: "USD",
-    symbol: "$",
-  },
+  currentCurrency: null,
   currencyOptions: null,
 };
 
@@ -25,6 +21,7 @@ const currencySlice = createSlice({
     },
     setCurrencyOptions: (state, { payload }) => {
       state.currencyOptions = payload;
+      state.currentCurrency = payload[0];
     },
   },
 });
@@ -56,17 +53,6 @@ export const selectProductPrice = createSelector(
     return `${currency.symbol}${formatPrice(amount, currency)}`;
   }
 );
-
-// =============
-// === THUNK ===
-
-export const getCurrencyOptionsAsync = () => {
-  return (dispatch) => {
-    fetchCurrencyOptions().then((res) => {
-      dispatch(setCurrencyOptions(res));
-    });
-  };
-};
 
 // ======================
 // === DEFAULT EXPORT ===

@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
 import {
-  getCurrencyOptionsAsync,
   selectCurrencyOptions,
   selectCurrentCurrency,
   setCurrentCurrency,
@@ -19,8 +18,6 @@ class CurrencyMenu extends React.Component {
 
   componentDidMount() {
     window.addEventListener("click", this.dismissMenuHandler);
-    const { getCurrencyOptions } = this.props;
-    getCurrencyOptions();
   }
 
   componentWillUnmount() {
@@ -33,28 +30,27 @@ class CurrencyMenu extends React.Component {
       this.props.setCurrentCurrency(currency);
     };
 
-    // item 7af
     const { currencyOptions, currentCurrency } = this.props;
-    return (
-      <div className="currency-menu">
-        {currencyOptions
-          ? currencyOptions.map(({ label, symbol }) => (
-              <div
-                className={`currency-menu__item ${
-                  label === currentCurrency.label
-                    ? "currency-menu__item__active"
-                    : ""
-                }`}
-                key={label}
-                onClick={(e) => handleClick(e, { label, symbol })}
-              >
-                <span>{symbol}</span>
-                <span>{label}</span>
-              </div>
-            ))
-          : null}
-      </div>
-    );
+    if (currencyOptions)
+      return (
+        <div className="currency-menu">
+          {currencyOptions.map(({ label, symbol }) => (
+            <div
+              className={`currency-menu__item ${
+                label === currentCurrency.label
+                  ? "currency-menu__item__active"
+                  : ""
+              }`}
+              key={label}
+              onClick={(e) => handleClick(e, { label, symbol })}
+            >
+              <span>{symbol}</span>
+              <span>{label}</span>
+            </div>
+          ))}
+        </div>
+      );
+    return null;
   }
 }
 
@@ -65,7 +61,6 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToState = (dispatch) => ({
   dismissMenu: () => dispatch(dismissCurrencyMenu()),
-  getCurrencyOptions: () => dispatch(getCurrencyOptionsAsync()),
   setCurrentCurrency: (currency) => dispatch(setCurrentCurrency(currency)),
 });
 
