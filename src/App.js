@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
-import SpinnerComp from "./components/spinner/Spinner.comp";
+import SpinnerComp from "./base/spinner/Spinner.comp";
 import {
   fetchInitialDataAsync,
   selectCategoryNames,
