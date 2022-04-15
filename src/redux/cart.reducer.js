@@ -24,10 +24,25 @@ const cartSlice = createSlice({
       const idx = findCartItemIdx(state.items, item, false);
       state.items.splice(idx, 1);
     },
+    clearItemFromCart: (state, { payload: { item } }) => {
+      state.items = state.items.filter(
+        (cartItem) => !isCartItemEqual(cartItem, item)
+      );
+    },
+    modifyItemInCart: (state, { payload: { oldItem, newItem } }) => {
+      state.items = state.items.map((cartItem) =>
+        isCartItemEqual(oldItem, cartItem) ? newItem : cartItem
+      );
+    },
   },
 });
 
-export const { addItemToCart, removeItemFromCart } = cartSlice.actions;
+export const {
+  addItemToCart,
+  removeItemFromCart,
+  clearItemFromCart,
+  modifyItemInCart,
+} = cartSlice.actions;
 
 // =================
 // === SELECTORS ===

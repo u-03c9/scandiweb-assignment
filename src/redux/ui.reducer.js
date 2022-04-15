@@ -6,7 +6,6 @@ import { createSlice, createSelector } from "@reduxjs/toolkit";
 const initialState = {
   isCartMenuOpen: false,
   isCurrencyMenuOpen: false,
-  showMotion: true,
 };
 
 // ================
@@ -30,9 +29,6 @@ const uiSlice = createSlice({
     dismissCartMenu: (state) => {
       state.isCartMenuOpen = false;
     },
-    setShowMotion: (state, payload) => {
-      state.showMotion = payload;
-    },
   },
 });
 
@@ -41,7 +37,6 @@ export const {
   dismissCurrencyMenu,
   toggleCartMenu,
   toggleCurrencyMenu,
-  setShowMotion,
 } = uiSlice.actions;
 
 // =================
@@ -55,10 +50,6 @@ export const selectIsCurrencyMenuOpen = createSelector(
 export const selectIsCartMenuOpen = createSelector(
   [selectUIStore],
   (ui) => ui.isCartMenuOpen
-);
-export const selectShowMotion = createSelector(
-  [selectUIStore],
-  (ui) => ui.showMotion
 );
 
 // ======================

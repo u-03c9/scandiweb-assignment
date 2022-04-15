@@ -1,0 +1,63 @@
+@import "../../assets/scss/variables.scss";
+
+.product-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+}
+
+.product-modal__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba($color: #393748, $alpha: 0.22);
+}
+
+.product-modal__content {
+  align-self: center;
+  position: relative;
+  padding: 1.5rem;
+  background-color: $c-white;
+  display: flex;
+  flex-direction: column;
+
+  .product-attribute {
+    margin-top: 0.5rem;
+  }
+
+  .product-attribute__options {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+
+    .base-radio-button {
+      min-width: 2rem;
+      min-height: 2rem;
+      padding: 0.4rem;
+    }
+  }
+}
+
+.product-modal__content__brand {
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1rem;
+}
+
+.product-modal__content__name {
+  font-weight: 400;
+  font-size: 1.5rem;
+}
+
+.product-modal__submit-btn {
+  @include custom-button;
+  margin-top: 1rem;
+}
