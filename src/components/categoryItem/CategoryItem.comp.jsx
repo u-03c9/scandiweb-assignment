@@ -9,8 +9,25 @@ import { withNavigation } from "../../HOC.js";
 import { ReactComponent as CartSVG } from "../../assets/images/circle-cart.svg";
 
 import "./CategoryItem.styles.scss";
+import ProductModal from "../productModal/ProductModal.comp";
+import { addItemToCart } from "../../redux/cart.reducer";
 
 class CategoryItem extends React.Component {
+  state = {
+    showModal: false,
+  };
+
+  cartIconOnClickHandler = (e) => {
+    e.stopPropagation();
+    const { product, addItemToCart } = this.props;
+    if (product.attributes.length > 0) {
+      this.setState({ showModal: true });
+    } else {
+      const { inStock, ...otherInfo } = product;
+      addItemToCart({ ...otherInfo, selectedAttributes: [] });
+    }
+  };
+
   render() {
     const { product, navigate, getProductPrice } = this.props;
     const { id, brand, name, gallery, inStock, prices } = product;
@@ -25,7 +42,10 @@ class CategoryItem extends React.Component {
             style={{ backgroundImage: `url('${gallery[0]}')` }}
           />
           {inStock ? (
-            <CartSVG className="cart-icon" />
+            <CartSVG
+              className="cart-icon"
+              onClick={this.cartIconOnClickHandler}
+            />
           ) : (
             <div className="out-of-stock-label">
               <span>out of stock</span>
@@ -36,6 +56,13 @@ class CategoryItem extends React.Component {
           <h3 className="name">{`${brand} ${name}`}</h3>
           <span className="price">{price}</span>
         </div>
+
+        {this.state.showModal ? (
+          <ProductModal
+            product={product}
+            dismissModal={() => this.setState({ showModal: false })}
+          />
+        ) : null}
         {inStock ? null : <div className="out-of-stock-overlay" />}
       </div>
     );
@@ -46,4 +73,11 @@ const mapStateToProps = createStructuredSelector({
   getProductPrice: (prices) => selectProductPrice(prices),
 });
 
-export default compose(connect(mapStateToProps), withNavigation)(CategoryItem);
+const mapDispatchToProps = (dispatch) => ({
+  addItemToCart: (item) => dispatch(addItemToCart({ item })),
+});
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withNavigation
+)(CategoryItem);

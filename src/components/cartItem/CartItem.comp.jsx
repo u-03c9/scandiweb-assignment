@@ -1,21 +1,29 @@
 import React from "react";
-import { map } from "lodash";
+import { map, size } from "lodash";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
-import { addItemToCart, removeItemFromCart } from "../../redux/cart.reducer";
+import {
+  addItemToCart,
+  clearItemFromCart,
+  removeItemFromCart,
+} from "../../redux/cart.reducer";
 import { selectProductPrice } from "../../redux/currency.reducer";
 
 import { ReactComponent as AddSVG } from "../../assets/images/add-sign.svg";
 import { ReactComponent as SubSVG } from "../../assets/images/sub-sign.svg";
 import { ReactComponent as LeftArrowSVG } from "../../assets/images/arrow-left.svg";
 import { ReactComponent as RightArrowSVG } from "../../assets/images/arrow-right.svg";
+import { ReactComponent as DeleteSVG } from "../../assets/images/delete-sign.svg";
+import { ReactComponent as EditSVG } from "../../assets/images/edit-sign.svg";
 
 import "./CartItem.styles.scss";
+import ProductModal from "../productModal/ProductModal.comp";
 
 class CartItem extends React.Component {
   state = {
     selectedImageIdx: 0,
+    showModal: false,
   };
 
   arrowOnClickHandler = (toLeft = true) => {
@@ -56,6 +64,7 @@ class CartItem extends React.Component {
           className={`cart-item__attribute 
           ${value.toLowerCase() === "no" ? "cart-item__attribute__no" : ""}`}
           style={{ backgroundColor: isSwatch ? value : null }}
+          title={isSwatch ? key : `${key}: ${value}`}
         >
           {isSwatch ? "" : isYesNo ? key : value}
         </span>
@@ -65,13 +74,23 @@ class CartItem extends React.Component {
     return (
       <div className="cart-item">
         <div className="cart-item__left">
-          <div className="cart-item__info">
-            <h2 className="cart-item__info__brand">{brand}</h2>
-            <h1 className="cart-item__info__name">{name}</h1>
-            <span className="cart-item__info__price">{price}</span>
+          <div className="cart-item__left__top">
+            <div className="cart-item__info">
+              <h2 className="cart-item__info__brand">{brand}</h2>
+              <h1 className="cart-item__info__name">{name}</h1>
+              <span className="cart-item__info__price">{price}</span>
+            </div>
+            <div className="cart-item__extra-buttons">
+              <DeleteSVG onClick={() => this.props.clearItem(item)} />
+
+              {size(selectedAttributes) > 0 ? (
+                <EditSVG onClick={() => this.setState({ showModal: true })} />
+              ) : null}
+            </div>
           </div>
           <div className="cart-item__attributes">{displayedAttributes}</div>
         </div>
+
         <div className="cart-item__quantity">
           <div
             className="cart-item__quantity__button"
@@ -87,6 +106,7 @@ class CartItem extends React.Component {
             <SubSVG />
           </div>
         </div>
+
         <div
           className="cart-item__thumbnail"
           style={{
@@ -110,6 +130,14 @@ class CartItem extends React.Component {
             </>
           ) : null}
         </div>
+
+        {this.state.showModal ? (
+          <ProductModal
+            product={item}
+            dismissModal={() => this.setState({ showModal: false })}
+            isEditing
+          />
+        ) : null}
       </div>
     );
   }
@@ -122,6 +150,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
   increase: (item) => dispatch(addItemToCart({ item })),
   decrease: (item) => dispatch(removeItemFromCart({ item })),
+  clearItem: (item) => dispatch(clearItemFromCart({ item })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartItem);

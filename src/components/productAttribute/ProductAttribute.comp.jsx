@@ -3,6 +3,12 @@ import React from "react";
 import RadioButton from "../../base/radioButton/RadioButton.base";
 
 class ProductAttribute extends React.Component {
+  isDefaultChecked = (value, idx) => {
+    const { attribute, selectedAttributes } = this.props;
+    if (!selectedAttributes) return idx === 0;
+    return selectedAttributes[attribute.name] === value;
+  };
+
   render() {
     const { attribute, productId } = this.props;
     return (
@@ -18,7 +24,7 @@ class ProductAttribute extends React.Component {
               key={productId + attribute.id + id}
               label={displayValue}
               isSwatch={attribute.type === "swatch"}
-              defaultChecked={idx === 0}
+              defaultChecked={this.isDefaultChecked(value, idx)}
             />
           ))}
         </div>

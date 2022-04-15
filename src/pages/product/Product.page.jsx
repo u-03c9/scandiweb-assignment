@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { compose } from "@reduxjs/toolkit";
 import { createStructuredSelector } from "reselect";
 import sanitizeHtml from "sanitize-html";
+import parseHtml from "html-react-parser";
 
 import { withNavigation, withParams } from "../../HOC";
 import { fetchProductInfo } from "../../api";
@@ -51,44 +52,25 @@ class ProductPage extends React.Component {
     else if (product) {
       const { addItemToCart, getProductPrice } = this.props;
       const { selectedImage } = this.state;
-      const {
-        id,
-        gallery,
-        brand,
-        name,
-        description,
-        prices,
-        attributes,
-        inStock,
-      } = product;
 
-      const price = getProductPrice(prices);
-      const safeDescription = sanitizeHtml(description);
+      const price = getProductPrice(product.prices);
+      const safeDescription = sanitizeHtml(product.description);
 
       const handleSubmit = (e) => {
         e.preventDefault();
-        if (!inStock) return;
-        let cartItem = {
-          productId: id,
-          selectedAttributes: {},
-          brand,
-          name,
-          gallery,
-          attributes,
-          prices,
-        };
+        if (!product.inStock) return;
+
+        const { inStock, description, ...otherInfo } = product;
         const formData = new FormData(e.target);
-        formData.forEach((value, key) => {
-          cartItem.selectedAttributes[key] = value;
-        });
-        addItemToCart(cartItem);
+        const selectedAttributes = Object.fromEntries(formData.entries());
+        addItemToCart({ ...otherInfo, selectedAttributes });
       };
 
       return (
         <div id="product-page">
           <div className="product-page__images">
             <div className="product-page__thumbnails-container">
-              {gallery.map((image, idx) => (
+              {product.gallery.map((image, idx) => (
                 <img
                   className="product-page__thumbnail"
                   key={idx}
@@ -99,7 +81,7 @@ class ProductPage extends React.Component {
               ))}
             </div>
             <img
-              src={gallery[selectedImage]}
+              src={product.gallery[selectedImage]}
               alt=""
               className="product-page__full-image"
             />
@@ -107,13 +89,13 @@ class ProductPage extends React.Component {
 
           <div className="product-page__info">
             <form onSubmit={handleSubmit}>
-              <h2 className="product-page__info__brand">{brand}</h2>
-              <h1 className="product-page__info__name">{name}</h1>
+              <h2 className="product-page__info__brand">{product.brand}</h2>
+              <h1 className="product-page__info__name">{product.name}</h1>
               <div className="product-page__info__attributes">
-                {attributes.map((item) => (
+                {product.attributes.map((item) => (
                   <ProductAttribute
                     attribute={item}
-                    productId={id}
+                    productId={product.id}
                     key={item.id}
                   />
                 ))}
@@ -128,15 +110,14 @@ class ProductPage extends React.Component {
               <button
                 className="product-page__info__add-to-cart"
                 type="submit"
-                disabled={!inStock}
+                disabled={!product.inStock}
               >
-                {inStock ? "add to cart" : "out of stock"}
+                {product.inStock ? "add to cart" : "out of stock"}
               </button>
             </form>
-            <div
-              className="product-page__info__description"
-              dangerouslySetInnerHTML={{ __html: safeDescription }}
-            />
+            <div className="product-page__info__description">
+              {parseHtml(safeDescription)}
+            </div>
           </div>
         </div>
       );

@@ -42,6 +42,16 @@ const CATEGORY_PRODUCTS_QUERY = gql`
             symbol
           }
         }
+        attributes {
+          id
+          name
+          type
+          items {
+            id
+            value
+            displayValue
+          }
+        }
       }
     }
   }

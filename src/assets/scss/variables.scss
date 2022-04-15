@@ -90,3 +90,20 @@ $navbar-height: 3rem;
 @include md {
   $navbar-height: 3.5rem;
 }
+
+@mixin custom-button {
+  padding: 0.75rem;
+  text-align: center;
+  text-transform: uppercase;
+  background-color: $c-primary;
+  border: 1px solid $c-primary;
+  color: $c-white;
+  cursor: pointer;
+  @include transition;
+
+  &:hover {
+    border-color: $c-black;
+    background-color: transparent;
+    color: $c-text;
+  }
+}
