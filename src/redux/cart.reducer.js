@@ -62,8 +62,8 @@ export const selectCartItems = createSelector([selectCartStore], (cart) => {
   return itemsForDisplay;
 });
 export const selectCartItemsTotalCount = createSelector(
-  [selectCartItems],
-  (items) => items.length
+  [selectCartStore],
+  (cart) => cart.items.length
 );
 export const selectCartItemsTotalPrice = createSelector(
   [selectCartItems],
