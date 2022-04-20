@@ -1,8 +1,11 @@
 import React from "react";
+import { nanoid } from "@reduxjs/toolkit";
 
 import RadioButton from "../../base/radioButton/RadioButton.base";
 
 class ProductAttribute extends React.Component {
+  id = nanoid();
+
   isDefaultChecked = (value, idx) => {
     const { attribute, selectedAttributes } = this.props;
     if (!selectedAttributes) return idx === 0;
@@ -10,7 +13,7 @@ class ProductAttribute extends React.Component {
   };
 
   render() {
-    const { attribute, productId } = this.props;
+    const { attribute } = this.props;
     return (
       <div className="product-attribute">
         <span className="product-attribute__title">{attribute.name}:</span>
@@ -20,8 +23,8 @@ class ProductAttribute extends React.Component {
               type="radio"
               name={attribute.id}
               value={value}
-              id={productId + attribute.id + id}
-              key={productId + attribute.id + id}
+              id={this.id + attribute.id + id}
+              key={this.id + attribute.id + id}
               label={displayValue}
               isSwatch={attribute.type === "swatch"}
               defaultChecked={this.isDefaultChecked(value, idx)}
