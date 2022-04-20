@@ -29,10 +29,23 @@ const cartSlice = createSlice({
         (cartItem) => !isCartItemEqual(cartItem, item)
       );
     },
-    modifyItemInCart: (state, { payload: { oldItem, newItem } }) => {
-      state.items = state.items.map((cartItem) =>
-        isCartItemEqual(oldItem, cartItem) ? newItem : cartItem
-      );
+    modifyItemInCart: (
+      state,
+      {
+        payload: {
+          oldItem,
+          attribute: { name, value },
+        },
+      }
+    ) => {
+      state.items = state.items.map((cartItem) => {
+        if (isCartItemEqual(oldItem, cartItem)) {
+          cartItem.selectedAttributes[name] = value;
+          return cartItem;
+        } else {
+          return cartItem;
+        }
+      });
     },
   },
 });

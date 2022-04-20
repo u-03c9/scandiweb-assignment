@@ -3,21 +3,15 @@ import { nanoid } from "@reduxjs/toolkit";
 
 import RadioButton from "../../base/radioButton/RadioButton.base";
 
-class ProductAttribute extends React.Component {
+class CartItemAttribute extends React.Component {
   id = nanoid();
 
-  isDefaultChecked = (value, idx) => {
-    const { attribute, selectedAttributes } = this.props;
-    if (!selectedAttributes) return idx === 0;
-    return selectedAttributes[attribute.name] === value;
-  };
-
   render() {
-    const { attribute } = this.props;
+    const { attribute, selectedAttributes } = this.props;
     return (
-      <div className="product-attribute">
-        <span className="product-attribute__title">{attribute.name}:</span>
-        <div className="product-attribute__options">
+      <div className="cart-item-attribute">
+        <span className="cart-item-attribute__title">{attribute.name}:</span>
+        <div className="cart-item-attribute__options">
           {attribute.items.map(({ value, displayValue, id }, idx) => (
             <RadioButton
               type="radio"
@@ -27,7 +21,8 @@ class ProductAttribute extends React.Component {
               key={this.id + id}
               label={displayValue}
               isSwatch={attribute.type === "swatch"}
-              defaultChecked={this.isDefaultChecked(value, idx)}
+              onChange={this.props.onChange}
+              checked={selectedAttributes[attribute.name] === value}
             />
           ))}
         </div>
@@ -36,4 +31,4 @@ class ProductAttribute extends React.Component {
   }
 }
 
-export default ProductAttribute;
+export default CartItemAttribute;

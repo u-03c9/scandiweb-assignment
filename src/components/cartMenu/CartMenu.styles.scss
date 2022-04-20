@@ -16,6 +16,40 @@
     right: -1rem;
     top: calc($navbar-height + 0.8rem);
   }
+
+  .cart-item__attributes {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+
+    .cart-item-attribute {
+      margin: 0;
+    }
+    .cart-item-attribute__options {
+      gap: 0.2rem;
+      height: auto;
+    }
+
+    .base-radio-button {
+      font-size: 0.8rem;
+      line-height: 0.8rem;
+      min-width: 1.5rem;
+      min-height: 1.2rem;
+
+      input {
+        opacity: 0.8;
+        background-color: #aaa;
+
+        &:checked {
+          opacity: 1;
+          background-color: $c-white;
+        }
+
+        &:checked ~ label {
+          color: $c-black;
+        }
+      }
+    }
+  }
 }
 
 .cart-menu__title {
